@@ -96,7 +96,7 @@ var albumPicasso = {
       artist: 'Pablo Picasso',
       label: 'Cubism',
       year: 1881,
-      albumArtUrl: '../app/assets/images/album-placeholder.png',
+      albumArtUrl: '/images/album-placeholder.png',
       songs: [
             { name: 'Blue', length: '4:26' },
             { name: 'Green', length: '3:14' },
@@ -227,7 +227,7 @@ var buildAlbumThumbnal = function() {
 	var template = 
         '<div class="collection-album-container col-md-2">'
       + '  <div class="collection-album-image-container">'
-      + '    <img src="../app/assets/images/album-placeholder.png"/>'
+      + '    <img src="/images/album-placeholder.png"/>'
       + '  </div>'
       + '  <div class="caption album-collection-info">'
       + '    <p>'
@@ -347,3 +347,4 @@ O),s=s.replace(Q,""),g.jsExtRegExp.test(s)&&(s=I),q.deps=q.deps?q.deps.concat(s)
 });
 
 ;
+//# sourceMappingURL=app.js.map

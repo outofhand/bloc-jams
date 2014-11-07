@@ -98,7 +98,7 @@ _$jscoverage['public/javascripts/app.js'].source=['(function(/*! Brunch !*/) {',
 '      artist: \'Pablo Picasso\',',
 '      label: \'Cubism\',',
 '      year: 1881,',
-'      albumArtUrl: \'../app/assets/images/album-placeholder.png\',',
+'      albumArtUrl: \'/images/album-placeholder.png\',',
 '      songs: [',
 '            { name: \'Blue\', length: \'4:26\' },',
 '            { name: \'Green\', length: \'3:14\' },',
@@ -229,7 +229,7 @@ _$jscoverage['public/javascripts/app.js'].source=['(function(/*! Brunch !*/) {',
 '	var template = ',
 '        \'<div class="collection-album-container col-md-2">\'',
 '      + \'  <div class="collection-album-image-container">\'',
-'      + \'    <img src="../app/assets/images/album-placeholder.png"/>\'',
+'      + \'    <img src="/images/album-placeholder.png"/>\'',
 '      + \'  </div>\'',
 '      + \'  <div class="caption album-collection-info">\'',
 '      + \'    <p>\'',
@@ -1161,7 +1161,7 @@ var albumPicasso = {
       artist: 'Pablo Picasso',
       label: 'Cubism',
       year: 1881,
-      albumArtUrl: '../app/assets/images/album-placeholder.png',
+      albumArtUrl: '/images/album-placeholder.png',
       songs: [
             { name: 'Blue', length: '4:26' },
             { name: 'Green', length: '3:14' },
@@ -1353,7 +1353,7 @@ var buildAlbumThumbnal = function() {
 var template = 
         '<div class="collection-album-container col-md-2">'
       + '  <div class="collection-album-image-container">'
-      + '    <img src="../app/assets/images/album-placeholder.png"/>'
+      + '    <img src="/images/album-placeholder.png"/>'
       + '  </div>'
       + '  <div class="caption album-collection-info">'
       + '    <p>'
