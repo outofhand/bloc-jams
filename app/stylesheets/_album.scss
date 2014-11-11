@@ -41,6 +41,11 @@ $color-pink: #d2287b;
    // Override the font for the entire table.
    font-weight: 300;
  }
+
+ .table.album-song-listing .odd {
+  background-color: #2F1D57; 
+  opacity: 0.9; 
+}
  
    // Override the defaults that Bootstrap sets.
  .table.album-song-listing td {

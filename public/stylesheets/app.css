@@ -325,6 +325,10 @@ body.landing .navbar {
 .table.album-song-listing {
   font-weight: 300; }
 
+.table.album-song-listing .odd {
+  background-color: #2f1d57;
+  opacity: 0.9; }
+
 .table.album-song-listing td {
   padding: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.4); }
