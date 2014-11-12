@@ -32,7 +32,7 @@ blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider,
       url: '/collection',
       controller: 'Collection.controller',
       templateUrl: '/templates/collection.html'
-    })  
+    }) 
     .state('album', {
       url: '/album',
       controller: 'Album.controller',
