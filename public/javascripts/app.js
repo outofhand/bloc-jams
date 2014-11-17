@@ -292,13 +292,29 @@ blocJams.config(['$stateProvider', '$locationProvider', function($stateProvider,
     })
     .state('collection', {
       url: '/collection',
-      controller: 'Collection.controller',
-      templateUrl: '/templates/collection.html'
+      views: {
+        '@' : {
+          controller: 'Collection.controller',
+          templateUrl: '/templates/collection.html'
+        },
+        'playerBar@collection' : { 
+          controller: 'PlayerBar.controller',
+          templateUrl: '/templates/player_bar.html' 
+        } 
+      }
     }) 
     .state('album', {
       url: '/album',
-      controller: 'Album.controller',
-      templateUrl: '/templates/album.html'
+      views: {
+        '@' : {
+          controller: 'Album.controller',
+          templateUrl: '/templates/album.html'
+        },
+        'playerBar@album' : { 
+          controller: 'PlayerBar.controller',
+          templateUrl: '/templates/player_bar.html' 
+        }
+      }
     })  
     .state('song', {
       url: '/song',    
@@ -333,17 +349,23 @@ blocJams.controller('Landing.controller', ['$scope', function($scope) {
       for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
       return o;
   };  
-
+  
 }]);
 
-blocJams.controller('Collection.controller', ['$scope', function($scope) {
+blocJams.controller('Collection.controller', ['$scope', 'ConsoleLogger', function($scope, ConsoleLogger) {
   $scope.albums = [];       
   for ( var i=0; i < 33; i++ ) {
     $scope.albums.push(angular.copy(albumPicasso));
-  }
+  };
+  
+  $scope.text = 'guest';
+  $scope.word = /^\s*\w*\s*$/;
+  $scope.log = function() {
+    ConsoleLogger.log($scope.text);
+  };
 }]);
 
-blocJams.controller('Album.controller', ['$scope', 'SongPlayer', function($scope, SongPlayer) {
+blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
   $scope.album = angular.copy(albumPicasso);
   
   var hoveredSong = null;
@@ -396,6 +418,16 @@ blocJams.service('SongPlayer', function() {
     setSong: function(album, song) {
       this.currentAlbum = album;
       this.currentSong = song;
+    }
+  };
+});
+
+blocJams.service('ConsoleLogger', function() {
+  return { 
+    string: null,
+    log: function(text) {
+      this.string = text;
+      console.log(this.string);
     }
   };
 });
