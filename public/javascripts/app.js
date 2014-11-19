@@ -272,11 +272,11 @@ var albumPicasso = {
       year: 1881,
       albumArtUrl: '/images/album-placeholder.png',
       songs: [
-            { name: 'Blue', length: '4:26', audioUrl: '/music/placeholders/blue' },
-            { name: 'Green', length: '3:14', audioUrl: '/music/placeholders/green' },
-            { name: 'Red', length: '5:01', audioUrl: '/music/placeholders/red' },
-            { name: 'Pink', length: '3:21', audioUrl: '/music/placeholders/pink' },
-            { name: 'Magenta', length: '2:15', audioUrl: '/music/placeholders/magenta' }                                                
+            { name: 'Blue', length: '163.38', audioUrl: '/music/placeholders/blue' },
+            { name: 'Green', length: '105.66', audioUrl: '/music/placeholders/green' },
+            { name: 'Red', length: '270.14', audioUrl: '/music/placeholders/red' },
+            { name: 'Pink', length: '154.81', audioUrl: '/music/placeholders/pink' },
+            { name: 'Magenta', length: '375.92', audioUrl: '/music/placeholders/magenta' }                                                
       ]
 };
 
@@ -426,6 +426,13 @@ blocJams.service('SongPlayer', function() {
       this.playing = false;
       currentSoundFile.pause();
     },
+    seek: function(time) {
+      // check to make sure a song is playing before seeking
+      if (currentSoundFile) {
+        // use Buzz setTime method to set the time of the song
+        currentSoundFile.setTime(time);
+      }
+    },
     setSong: function(album, song) {
       if (currentSoundFile) {
         currentSoundFile.stop();
@@ -481,18 +488,44 @@ blocJams.directive('slider', ['$document', function($document) {
     return offsetXPercent;
   }
   
+  var numberFromValue = function(value, defaultValue) {
+    if (typeof value === 'number') {
+      return value;
+    }
+    
+    if (typeof value === 'undefined') {
+      return defaultValue;
+    }
+    
+    if (typeof value === 'string') {
+      return Number(value);
+    }
+  }
+  
   return {
     templateUrl: '/templates/directives/slider.html',
     replace: true,
     restrict: 'E',
-    scope: {}, // scope exists only in this directive
+    scope: {
+      onChange: '&' // evaluate the passed-in value as an expression in the parent scope
+    }, // scope exists only in this directive
     link: function(scope, element, attributes) {     
       scope.value = 0; // initial value for song/volume bar progress
-      scope.max = 200; // max value
+      scope.max = 100; // max value
       var $seekBar = $(element);
+      
+      attributes.$observe('value', function(newValue) {
+        scope.value = numberFromValue(newValue, 0);
+      });
+      
+      attributes.$observe('max', function(newValue) {
+        scope.max = numberFromValue(newValue, 100) || 100;
+      });
  
-      var percentString = function() {
-        percent = Number(scope.value) / Number(scope.max) * 100;
+      var percentString = function() {      
+        var value = scope.value || 0;
+        var max = scope.max || 100;
+        percent = value / max *100;
         return percent + "%";
       }
       
@@ -507,6 +540,7 @@ blocJams.directive('slider', ['$document', function($document) {
       scope.onClickSlider = function(event) {
         var percent = calculateSliderPercentFromMouseEvent($seekBar, event);
         scope.value = percent * scope.max;
+        notifyCallback(scope.value);
       }
       
       scope.trackThumb = function() {
@@ -514,8 +548,15 @@ blocJams.directive('slider', ['$document', function($document) {
           var percent = calculateSliderPercentFromMouseEvent($seekBar, event);
           scope.$apply(function() {
             scope.value = percent * scope.max;
+            notifyCallback(scope.value);
           });
         });
+        
+        var notifyCallback = function(newValue) {
+          if (typeof scope.onChange === 'function') {
+            scope.onChange({value: newValue});
+          }
+        };
         
         // cleanup
         $document.bind('mouseup.thumb', function() {
